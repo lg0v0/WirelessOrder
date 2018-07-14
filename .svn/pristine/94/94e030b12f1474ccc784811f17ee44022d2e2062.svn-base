@@ -1,0 +1,166 @@
+CREATE DATABASE  IF NOT EXISTS `wirelessorder` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `wirelessorder`;
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+--
+-- Host: localhost    Database: wirelessorder
+-- ------------------------------------------------------
+-- Server version	5.7.17-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `food`
+--
+
+DROP TABLE IF EXISTS `food`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `food` (
+  `foodid` varchar(30) NOT NULL,
+  `foodname` varchar(30) NOT NULL,
+  `price` varchar(30) NOT NULL,
+  `img` varchar(50) NOT NULL,
+  PRIMARY KEY (`foodid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `food`
+--
+
+LOCK TABLES `food` WRITE;
+/*!40000 ALTER TABLE `food` DISABLE KEYS */;
+INSERT INTO `food` VALUES ('0','麻婆豆腐','15','img/0.jpg'),('1','宫保鸡丁','18','img/1.jpg'),('10','辣椒炒肉','15','img/10.jpg'),('11','口味虾','40','img/11.jpg'),('2','鱼香肉丝','12','img/2.jpg'),('3','肉末茄子','10','img/3.jpg'),('4','糖醋排骨','24','img/4.jpg'),('5','酸溜土豆丝','8','img/5.jpg'),('6','西红柿炒蛋','10','img/6.jpg'),('7','蚂蚁上树','14','img/7.jpg'),('8','可乐鸡翅','30','img/8.jpg'),('9','剁椒鱼头','50','img/9.jpg');
+/*!40000 ALTER TABLE `food` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orderdetail`
+--
+
+DROP TABLE IF EXISTS `orderdetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `orderdetail` (
+  `orderid` varchar(30) NOT NULL,
+  `foodid` varchar(30) NOT NULL,
+  `foodcount` varchar(30) NOT NULL,
+  `foodstatus` varchar(30) NOT NULL,
+  PRIMARY KEY (`orderid`,`foodid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orderdetail`
+--
+
+LOCK TABLES `orderdetail` WRITE;
+/*!40000 ALTER TABLE `orderdetail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orderdetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orderinfo`
+--
+
+DROP TABLE IF EXISTS `orderinfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `orderinfo` (
+  `orderid` varchar(30) NOT NULL,
+  `ordernum` varchar(30) NOT NULL,
+  `tableid` varchar(30) NOT NULL,
+  `orderdate` varchar(30) NOT NULL,
+  `totalprice` varchar(30) DEFAULT NULL,
+  `orderstatus` varchar(30) NOT NULL,
+  PRIMARY KEY (`orderid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orderinfo`
+--
+
+LOCK TABLES `orderinfo` WRITE;
+/*!40000 ALTER TABLE `orderinfo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orderinfo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tableinfo`
+--
+
+DROP TABLE IF EXISTS `tableinfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tableinfo` (
+  `tableid` varchar(30) NOT NULL,
+  `tablenum` varchar(30) NOT NULL,
+  `tablestatus` varchar(30) NOT NULL,
+  PRIMARY KEY (`tableid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tableinfo`
+--
+
+LOCK TABLES `tableinfo` WRITE;
+/*!40000 ALTER TABLE `tableinfo` DISABLE KEYS */;
+INSERT INTO `tableinfo` VALUES ('1','1','0'),('10','10','0'),('2','2','0'),('3','3','0'),('4','4','0'),('5','5','0'),('6','6','0'),('7','7','0'),('8','8','0'),('9','9','0');
+/*!40000 ALTER TABLE `tableinfo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `userid` varchar(30) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(30) NOT NULL,
+  `usertype` varchar(30) NOT NULL,
+  PRIMARY KEY (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('1001','1001','123','0'),('1002','1002','123','1'),('1003','1003','123','2');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'wirelessorder'
+--
+
+--
+-- Dumping routines for database 'wirelessorder'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-06-19  9:01:48

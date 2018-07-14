@@ -1,0 +1,69 @@
+function changea(x)
+{
+	var i=$("#data a").index(x);
+	var a=document.getElementById("changea"+i.toString());
+	a.innerHTML="正在烹饪中";
+	
+	
+	
+}
+$(document).ready(function(){
+	$.ajax({  
+        type : "post",  
+        url : "Order", 
+        data : "action=showOrder",
+        success : function(data) {  
+        	//alert(data);
+            data = eval(data); 
+            var dt = document.getElementById("order");
+            var tr = document.createElement("tr");  
+            tr.innerHTML = "<td>订单号</td><td>餐桌号</td><td>下单时间</td><td>总金额</td><td>状态</td>";  
+            dt.appendChild(tr);  
+            //利用循环构造表格的每一行，把其放在文件碎片上面  
+            for (var i = 0; i < data.length; i++) {  
+                tr = document.createElement("tr");  
+                tr.innerHTML = "<td id='order" + i.toString() + "'>" + data[i].ordernum + "</td>" + 
+                	"<td>"+ data[i].tableid + "</td>" + 
+                	"<td>" + data[i].orderdate + "</td>" + 
+                	"<td>" + data[i].totalprice + "</td>" + 
+                	"<td>" + data[i].orderstatus + "</td>" + 
+                	"<td><a  class='btn btn-info' href='javascript:' id='change"+ i.toString() +"'><i class='icon-edit icon-white'></i>结账</a></td>";  
+                dt.appendChild(tr);
+                $("#change"+i.toString()).click(function(){
+                	$.ajax({ 
+                        type: "post",
+                        url: "Order",
+                        data: "action=changeStatus&" + "orderid=" + document.getElementById("order"+$("#order a").index(this)).innerHTML,
+                        success: function (result) {
+                        	//alert(result);
+                        	if (result == "yes") {
+            	                alert("结账成功！");
+            	                window.location.href = "order.jsp";
+            	            }
+            	            else
+            	            {
+            	            	alert("结账失败！");
+            	            }
+                        	
+                        	
+                        	
+                        }
+                    });
+                	
+                	
+                	
+                	
+                });
+            }  
+            //此时文件碎片已经是一张表了，直接放网页就可以了  
+        },  
+        error : function() {  
+            alert("出错了");  
+        }  
+  
+    });  
+
+	
+	
+});
+ 

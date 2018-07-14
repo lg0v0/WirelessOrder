@@ -1,0 +1,78 @@
+$(document).ready(function () {
+	
+	$("#table").click(function () {
+		$.ajax({
+	        type: "post",
+	        url: "AddFood",
+	        data: "action=table&d=" + new Date() + "&tablenumber=" + $("#tablenum").val(),
+	        success: function (result) {
+	        	//alert(result);
+	            if (result == "yes") {
+	                alert("添加成功！");
+	                window.location.href = "Waiter.jsp";
+	            }
+	            else
+	            {
+	            	alert("添加失败！");
+	            }
+	        }
+	    });
+	});
+
+	$.ajax({
+        type: "post",
+        url: "Waiter",
+        //data: "action=showitem&d=" + new Date()+"&page="+page1.toString(),
+        success: function (result) {
+            //alert(result);
+            var str = eval("(" + result + ")");
+            //alert(str.length);
+            for(var i = 0; i < str.length; i++)
+        	{
+            	/*$("#item_text" + i.toString()).html(str[i-1].foodname);
+                $("#price" + i.toString()).html(str[i-1].price);
+                $("#img_item" + i.toString()).attr("src", str[i-1].img);
+                $("#img_item" + i.toString()).attr("alt", str[i-1].foodid);*/
+            	
+            	var div = document.createElement("div");
+            	div.class = "row-fluid";
+            	var li = document.createElement("li");  
+            	li.class = "span3";
+            	li.innerHTML = "<div class='row-fluid'><li class='span3'><div class='thumbnail'>" +
+            			"<img id='img_item" + i.toString() + "' src='" + str[i].img + "' alt='" + str[i].foodid + "' width='220' height='170'>" +
+            			"<h3 id='item_text" + i.toString() + "'>" + str[i].foodname + "</h3>" +
+            			"<span>¥</span><strong id='price" + i.toString() + "'>" + str[i].price + "</strong>" +
+            			"<a id='add" + i.toString() + "' href='javascript:' class='btn btn-primary'>添加</a></div></li></div>" +
+            			"<div class='page-header' ></div>";
+            	div.appendChild(li)
+            	document.getElementById("showItem").appendChild(div);
+            	$("#add" + i.toString()).click(function () {
+            		
+            		$.ajax({
+            	        type: "post",
+            	        url: "AddFood",
+            	        data: "action=addfood&d=" + new Date() + 
+            	        	"&tablenumber=" + document.getElementById("showtable").innerHTML + 
+            	        	"&foodid=" + $("#showItem a").index(this),
+            	        success: function (result) {
+            	        	//alert(result);
+            	        	if (result == "yes") {
+            	                alert("添加成功！");
+            	            }
+            	            else
+            	            {
+            	            	alert("添加失败！");
+            	            }
+            	        }
+            	    });
+            	});
+            	
+        	}
+            
+            
+        }
+    });
+	
+
+
+});

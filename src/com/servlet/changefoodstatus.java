@@ -1,0 +1,99 @@
+package com.servlet;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class changefoodstatus
+ */
+@WebServlet("/changefoodstatus")
+public class changefoodstatus extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public changefoodstatus() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		java.io.PrintWriter out=response.getWriter();
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("UTF-8");
+		String tableid=request.getParameter("tableid");
+		String foodname=request.getParameter("foodname");
+		String action=request.getParameter("action");
+		if(action.equals("click1"))
+		{
+			try{
+			     dbDAO db=new dbDAO();
+			     String sqlstr="update orderdetail set foodstatus='正在烹饪' where orderid=(select orderid from orderinfo where orderstatus!='已结账' and tableid='"+tableid+"') and foodid=(select foodid from food where foodname='"+foodname+"')";
+			     if(db.modify(sqlstr))
+			     {
+			    	 out.write("yes");
+			     }
+			     else
+			     {
+			    	 out.write("no");
+			     }
+			     out.close();
+			}	
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else if(action.equals("click2"))
+		{
+			try{
+			     dbDAO db=new dbDAO();
+			     String sqlstr="update orderdetail set foodstatus='烹饪完成' where orderid=(select orderid from orderinfo where orderstatus!='已结账' and tableid='"+tableid+"') and foodid=(select foodid from food where foodname='"+foodname+"')";
+			     
+			     if(db.modify(sqlstr))
+			     {
+			    	 out.write("yes");
+			     }
+			     else
+			     {
+			    	 out.write("no");
+			     }
+			     out.close();
+		    	 sqlstr="select orderid from orderinfo  where tableid='"+tableid+"' and orderstatus='未上菜'";
+			     ResultSet rs=db.query(sqlstr);
+			     rs.next();
+			     String orderid=rs.getString("orderid");
+			     sqlstr="select foodid from orderdetail where orderid='"+orderid+"' and foodstatus!='烹饪完成'";
+			     rs=db.query(sqlstr);
+			     if(!rs.next())
+			     {
+			    	 sqlstr="update orderinfo set orderstatus ='未结账' where orderid='"+orderid+"'and orderstatus='未上菜' ";
+			    	 db.modify(sqlstr);
+			     }
+			}	
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
